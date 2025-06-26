@@ -20,6 +20,8 @@ from .secrets import get_secret
 from django.urls import reverse_lazy
 import base64
 
+SECRET_KEY = os.environ.get("SECRET_KEY", "")
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -200,10 +202,22 @@ if PROD:
     )
 
 
-LOGIN_REDIRECT_URL = "/pro"
-ACCOUNT_LOGOUT_REDIRECT_URL = "/pro/signin/"
-LOGIN_URL = "/pro/signin/"
-ACCOUNT_SIGNUP_REDIRECT_URL = "/pro/optional-info/"
+# LOGIN_REDIRECT_URL = "/pro"
+# ACCOUNT_LOGOUT_REDIRECT_URL = "/pro/signin/"
+# LOGIN_URL = "/pro/signin/"
+# ACCOUNT_SIGNUP_REDIRECT_URL = "/pro/optional-info/"
+
+##
+
+if PROD:
+    LOGIN_REDIRECT_URL = "/pro"
+    LOGIN_URL = "/pro/signin/"
+    ACCOUNT_SIGNUP_REDIRECT_URL = "/pro/optional-info/"
+else:
+    LOGIN_REDIRECT_URL = "/"
+    LOGIN_URL = "/login/"
+    ACCOUNT_SIGNUP_REDIRECT_URL = "/"
+##
 
 GUEST_USER_CONVERT_URL = LOGIN_URL
 GUEST_USER_CONVERT_REDIRECT_URL = LOGIN_REDIRECT_URL
