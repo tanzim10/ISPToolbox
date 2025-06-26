@@ -47,9 +47,9 @@ services:
     build: ./webserver
     command: gunicorn webserver.wsgi -b 0.0.0.0 -w 2
     # command: python -m debugpy --listen 0.0.0.0:3000 --wait-for-client manage.py runserver 0.0.0.0:8000
-    # ports:
-    #   - "8000:8000"
-    #   - "3000:3000"
+    ports:
+      - "8000:8000"
+      - "3000:3000"
     depends_on:
       - redis
       - postgres
