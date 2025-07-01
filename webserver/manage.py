@@ -13,9 +13,15 @@ def main():
     if settings.DEBUG:
         #  These environment variables enable hot reloading
         if os.environ.get('RUN_MAIN') or os.environ.get('WERKZEUG_RUN_MAIN'):
-            import ptvsd
-            ptvsd.enable_attach(address=('0.0.0.0', 3000))
-            print('Attached VS Code Python Debugger!')
+            # import ptvsd
+            # ptvsd.enable_attach(address=('0.0.0.0', 3000))
+            # print('Attached VS Code Python Debugger!')
+            import debugpy
+            debugpy.listen(("0.0.0.0", 3000))
+            print("Waiting for VS Code debugger to attach...")
+            debugpy.wait_for_client()
+            print("Debugger attached.")
+
     # end Debugging
 
     try:

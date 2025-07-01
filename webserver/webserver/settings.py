@@ -20,6 +20,12 @@ from .secrets import get_secret
 from django.urls import reverse_lazy
 import base64
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
+SECRET_KEY = os.environ.get("SECRET_KEY", "")
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -28,7 +34,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-ALLOWED_HOSTS = [".facebook.com", ".isptoolbox.io", ".fbctower.com"]
+#---
+#ALLOWED_HOSTS = [".facebook.com", ".isptoolbox.io", ".fbctower.com"]
+
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    ".facebook.com",
+    ".isptoolbox.io",
+    ".fbctower.com"
+]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -200,10 +215,22 @@ if PROD:
     )
 
 
-LOGIN_REDIRECT_URL = "/pro"
-ACCOUNT_LOGOUT_REDIRECT_URL = "/pro/signin/"
-LOGIN_URL = "/pro/signin/"
-ACCOUNT_SIGNUP_REDIRECT_URL = "/pro/optional-info/"
+# LOGIN_REDIRECT_URL = "/pro"
+# ACCOUNT_LOGOUT_REDIRECT_URL = "/pro/signin/"
+# LOGIN_URL = "/pro/signin/"
+# ACCOUNT_SIGNUP_REDIRECT_URL = "/pro/optional-info/"
+
+##
+
+if PROD:
+    LOGIN_REDIRECT_URL = "/pro"
+    LOGIN_URL = "/pro/signin/"
+    ACCOUNT_SIGNUP_REDIRECT_URL = "/pro/optional-info/"
+else:
+    LOGIN_REDIRECT_URL = "/"
+    LOGIN_URL = "/login/"
+    ACCOUNT_SIGNUP_REDIRECT_URL = "/"
+##
 
 GUEST_USER_CONVERT_URL = LOGIN_URL
 GUEST_USER_CONVERT_REDIRECT_URL = LOGIN_REDIRECT_URL
@@ -331,13 +358,25 @@ CORS_ORIGIN_REGEX_WHITELIST = [
 ]
 
 X_FRAME_OPTIONS = "ALLOW-FROM facebook.com"
-CSRF_TRUSTED_ORIGINS = ALLOWED_HOSTS
+# CSRF_TRUSTED_ORIGINS = ALLOWED_HOSTS
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost",
+    "http://127.0.0.1",
+    "https://facebook.com",
+    "https://*.facebook.com",
+    "https://isptoolbox.io",
+    "https://*.isptoolbox.io",
+    "https://fbctower.com",
+    "https://*.fbctower.com"
+]
 
 ROOT_URLCONF = "webserver.urls"
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [os.path.join(BASE_DIR, "webserver", "workspace", "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

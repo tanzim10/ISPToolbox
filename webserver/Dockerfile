@@ -13,6 +13,13 @@ RUN apt-get update && apt-get install -y pdal libpdal-dev
 RUN apt-get update && apt-get install -y postgresql postgresql-contrib libgeos-dev
 RUN apt-get update && apt-get install -y gfortran apt-utils cmake libpython3-dev
 
+# Install Node.js and npm
+RUN apt-get update && apt-get install -y curl gnupg \
+  && curl -fsSL https://deb.nodesource.com/setup_14.x | bash - \
+  && apt-get install -y nodejs \
+  && npm install -g sass@1.32.8 \
+  && apt-get clean
+
 # Create Python virtual env
 RUN apt-get update && apt-get install -y python3-venv
 ENV VIRTUAL_ENV=/opt/venv

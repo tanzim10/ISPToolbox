@@ -3,6 +3,8 @@ version: "3.2"
 services:
   redis:
     build: ./redis
+    env_file:
+      - .env
     logging:
       driver: "none"
 
@@ -13,6 +15,7 @@ services:
       - "POSTGRES_PASSWORD=password"
       - "POSTGRES_DB=django_test"
 
+
   nginx:
     image: isptoolbox-nginx
     build: ./nginx
@@ -21,6 +24,8 @@ services:
       - websocket-app
       - flower
       - node-app
+    env_file:
+      - .env
     ports:
       - 80:80
 
@@ -31,22 +36,48 @@ services:
     depends_on:
       - redis
       - postgres
+
     environment:
       - GOOGLE_APPLICATION_CREDENTIALS=/usr/src/app/dataUpdate/config/gcp-service-key.json
+    env_file:
+      - .env
 
   django-app:
     image: isptoolbox-django
     build: ./webserver
     command: gunicorn webserver.wsgi -b 0.0.0.0 -w 2
+    # command: python -m debugpy --listen 0.0.0.0:3000 --wait-for-client manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+      - "3000:3000"
     depends_on:
       - redis
       - postgres
+    env_file:
+      - .env
+
+#-----#
+  django-debug:
+    image: isptoolbox-django
+    build: ./webserver
+    command: python -m debugpy --listen 0.0.0.0:3000 --wait-for-client manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8001:8000"
+      - "3001:3000"
+    depends_on:
+      - redis
+      - postgres
+    env_file: .env
+
+#----#
 
   node-app:
     image: isptoolbox-node
     build: ./node-webserver
     depends_on:
       - redis
+    env_file:
+      - .env
 
   websocket-app:
     image: isptoolbox-django-ws
@@ -55,6 +86,9 @@ services:
     depends_on:
       - redis
       - postgres
+    env_file:
+      - .env
+      
 
   flower:
     image: isptoolbox-flower
@@ -63,5 +97,7 @@ services:
     depends_on:
       - redis
       - celery
+    env_file:
+      - .env
     ports:
       - 5555:5555

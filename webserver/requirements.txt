@@ -1,5 +1,5 @@
 aioredis==1.3.1
-amqp==5.0.6
+amqp==5.0.9
 area==1.1.1
 argh==0.26.2
 async-timeout==3.0.1
@@ -9,7 +9,7 @@ billiard==3.6.4.0
 boto3==1.14.47
 botocore==1.17.47
 cached-property==1.5.2
-celery==5.2.2
+celery==5.2.3
 certifi==2023.7.22
 channels-redis==3.2.0
 channels==3.0.4
@@ -70,7 +70,7 @@ msgpack==1.0.0
 numpy==1.22.0
 pandas==1.2.1
 pathtools==0.1.2
-PDAL==3.0.2
+PDAL==2.3.0
 prometheus-client==0.11.0
 prompt-toolkit==3.0.20
 psycopg2-binary==2.8.5
@@ -79,7 +79,7 @@ pycountry==20.7.3
 pygeoif==0.7
 pyjwt==2.4.0
 python-dateutil==2.8.1
-pytz==2021.1
+pytz==2021.3
 PyYAML==5.4
 rasterio==1.2.10
 redis==3.5.3
@@ -95,13 +95,15 @@ tornado==6.3.3
 turfpy==0.0.7
 txaio==20.4.1
 uritemplate==3.0.1
-urllib3==1.26.18
+urllib3==1.25.11
 uvicorn==0.17.4
 uvloop==0.14.0
 vine==5.0.0
-wagtail==4.1.9
+wagtail==2.13
 watchdog==0.10.3
 wcwidth==0.2.5
 Willow==1.4
 xmltodict==0.12.0
 zipp==3.5.0
+debugpy
+dotenv
