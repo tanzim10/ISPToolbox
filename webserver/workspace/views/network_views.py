@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.gis.geos import Point
 from django.shortcuts import get_object_or_404
+from django.conf import settings
 
 import csv
 from workspace.models import AccessPointLocation, WorkspaceMapSession
@@ -90,5 +91,6 @@ class EditNetworkView(AllowGuestUserMixin, View):
             "title": "LiDAR LOS Check - ISP Toolbox",
             "tool": "los_check",
             "demo_network_view": False,
+            "MAPBOX_ACCESS_TOKEN_PUBLIC": settings.MAPBOX_ACCESS_TOKEN_PUBLIC,
         }
         return render(request, "workspace/pages/network_edit.html", context)
